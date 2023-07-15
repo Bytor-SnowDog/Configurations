@@ -36,7 +36,7 @@
  * Advanced settings can be found in Configuration_adv.h
  */
 #define CONFIGURATION_H_VERSION 02010201
-//                               2.1.2.1
+//                               2.1.2.1 // RASCAL 07/10/2023
 
 //===========================================================================
 //============================= Getting Started =============================
@@ -61,7 +61,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(Creality Ender-5 Plus - by Rob 07/03/2023)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(none, default config)" // Who made the changes.
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
@@ -91,8 +91,8 @@
   #define MOTHERBOARD BOARD_BTT_SKR_V2_0_REV_B // RASCAL 
 #endif
 
-#define X_MAX_PIN  3 // Creality connects X_MAX to X_MIN(_PIN) motherboard connector
-#define Y_MAX_PIN 14 // Creality connects Y_MAX to Y_MIN(_PIN) motherboard connector
+// #define X_MAX_PIN  3 // Creality connects X_MAX to X_MIN(_PIN) motherboard connector
+// #define Y_MAX_PIN 14 // Creality connects Y_MAX to Y_MIN(_PIN) motherboard connector
 
 /**
  * Select the serial port on the board to use for communication with the host.
@@ -167,7 +167,7 @@
 #define Z_DRIVER_TYPE  TMC2209  //RASCAL
 //#define X2_DRIVER_TYPE A4988
 //#define Y2_DRIVER_TYPE A4988
-//#define Z2_DRIVER_TYPE A4988
+#define Z2_DRIVER_TYPE TMC2209  //RASCAL default commented, needed for Z_STEPPER_AUTO_ALIGN in Configuration_adv.h
 //#define Z3_DRIVER_TYPE A4988
 //#define Z4_DRIVER_TYPE A4988
 //#define I_DRIVER_TYPE  A4988
@@ -623,7 +623,7 @@
 // Above this temperature the heater will be switched off.
 // This can protect components from overheating, but NOT from shorts and failures.
 // (Use MINTEMP for thermistor short/failure protection.)
-#define HEATER_0_MAXTEMP 300  // RASCAL  max 300 for All Metal Hotend and E3D V6 or Volcano (see overshoot below)
+#define HEATER_0_MAXTEMP 300  // RASCAL  max 300 for All Metal Hotend and E3D V6 or Volcano, default 275
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define HEATER_3_MAXTEMP 275
@@ -631,7 +631,7 @@
 #define HEATER_5_MAXTEMP 275
 #define HEATER_6_MAXTEMP 275
 #define HEATER_7_MAXTEMP 275
-#define BED_MAXTEMP      125  // RASCAL Default 150
+#define BED_MAXTEMP      125  // RASCAL default 150
 #define CHAMBER_MAXTEMP  60
 
 /**
@@ -856,7 +856,7 @@
 
 #define THERMAL_PROTECTION_HOTENDS // Enable thermal protection for all extruders
 #define THERMAL_PROTECTION_BED     // Enable thermal protection for the heated bed
-//#define THERMAL_PROTECTION_CHAMBER // Enable thermal protection for the heated chamber
+//#define THERMAL_PROTECTION_CHAMBER // Enable thermal protection for the heated chamber // RASCAL default commented
 #define THERMAL_PROTECTION_COOLER  // Enable thermal protection for the laser cooling
 
 //===========================================================================
@@ -1036,17 +1036,17 @@
 // Specify here all the endstop connectors that are connected to any endstop or probe.
 // Almost all printers will be using one per axis. Probes will use one or more of the
 // extra connectors. Leave undefined any used for non-endstop and non-probe purposes.
-#define USE_XMIN_PLUG // RASCAL
-#define USE_YMIN_PLUG // RASCAL
-#define USE_ZMIN_PLUG // RASCAL
+#define USE_XMIN_PLUG // RASCAL default uncommented
+#define USE_YMIN_PLUG // RASCAL default uncommented
+#define USE_ZMIN_PLUG // RASCAL default uncommented
 //#define USE_IMIN_PLUG
 //#define USE_JMIN_PLUG
 //#define USE_KMIN_PLUG
 //#define USE_UMIN_PLUG
 //#define USE_VMIN_PLUG
 //#define USE_WMIN_PLUG
-#define USE_XMAX_PLUG
-#define USE_YMAX_PLUG
+#define USE_XMAX_PLUG // RASCAL default commented, compiler requires uncommented
+#define USE_YMAX_PLUG // RASCAL default commented, compiler requires uncommented
 //#define USE_ZMAX_PLUG
 //#define USE_IMAX_PLUG
 //#define USE_JMAX_PLUG
@@ -1174,15 +1174,14 @@
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
 // E steps example: steps per revolution s=200, microstepping m=16, effective gear diameter d=10.95: sm/(πd) = 93.02
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80.55, 81.27, 803.0, 390 }  // RASCAL Hemera {80.55, 80.70, 807.01, 397(starting recommendation)}
-// RASCAL Change via Terminal and store in eprom with M500 command
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80.55, 81.27, 803.0, 390 }  // RASCAL Hemera {80.55, 80.70, 807.01, 397} (starting recommendation) M92 & store and store with M500
 
 /**
  * Default Max Feed Rate (linear=mm/s, rotational=°/s)
  * Override with M203 // RASCAL - BTT needs to be done manually and M500 save
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 8000, 8000, 15, 15000 }
+#define DEFAULT_MAX_FEEDRATE          { 8000, 8000, 15, 15000 } // RASCAL M203 & M500
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -1281,7 +1280,7 @@
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
-#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN  // RASCAL  Plug BLTouch switch (black/white) into the Z endstop connector on the BTT SKR 2
+#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN  // RASCAL Plug BLTouch switch (black/white) into the Z endstop connector on the BTT SKR 2
 
 // Force the use of the probe for Z-axis homing
 //#define USE_PROBE_FOR_Z_HOMING
@@ -1338,7 +1337,8 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-#define BLTOUCH
+#define BLTOUCH // RASCAL default commented
+
 
 /**
  * MagLev V4 probe by MDD
@@ -1491,11 +1491,9 @@
  *     O-- FRONT --+
  */
 // Note on Creality Ender-5 Plus: Z offset must be adjusted (M851) every time once the probe has been loosen/unmounted.
-//#define NOZZLE_TO_PROBE_OFFSET { -44, -5, -3.0 } // RASCAL Stock Hot End
-#define NOZZLE_TO_PROBE_OFFSET { -39, 0, -3.0}  // RASCAL HEMERA MUTANT LINEAR RAIL CONFIGURATION measured (Z by baby steps, difference observed, tried -2.95)
-// Most probes should stay away from the edges of the bed, but
-// with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 15  // RASCAL  Default 5
+#define NOZZLE_TO_PROBE_OFFSET { -39, 0, -3.0}  // RASCAL HEMERA MUTANT LINEAR RAIL CONFIGURATION measured Z by babysteps. { -44, -5, -3.0 } Stock Hot End
+// Most probes should stay away from the edges of the bed, but with NOZZLE_AS_PROBE this can be negative for a wider probing area.
+#define PROBING_MARGIN 15  // RASCAL default 5
 
 // X and Y axis travel speed (mm/min) between probes
 #define XY_PROBE_FEEDRATE (133*60)
@@ -1551,7 +1549,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-#define MULTIPLE_PROBING 2
+#define MULTIPLE_PROBING 3 // RASCAL default 2 
 //#define EXTRA_PROBING  1
 
 /**
@@ -1648,9 +1646,9 @@
 // @section motion
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR true  // RASCAL  Default = false
-#define INVERT_Y_DIR true  // RASCAL  Default = false
-#define INVERT_Z_DIR true  // RASCAL  Default = false
+#define INVERT_X_DIR true  // RASCAL default false
+#define INVERT_Y_DIR true  // RASCAL default false
+#define INVERT_Z_DIR true  // RASCAL default false
 //#define INVERT_I_DIR false
 //#define INVERT_J_DIR false
 //#define INVERT_K_DIR false
@@ -1689,8 +1687,8 @@
 
 // Direction of endstops when homing; 1=MAX, -1=MIN
 // :[-1,1]
-#define X_HOME_DIR  1
-#define Y_HOME_DIR  1
+#define X_HOME_DIR  1 // RASCAL default -1???
+#define Y_HOME_DIR  1 // RASCAL default -1???
 #define Z_HOME_DIR -1
 //#define I_HOME_DIR -1
 //#define J_HOME_DIR -1
@@ -1703,18 +1701,15 @@
 
 // The size of the printable area
 #define X_BED_SIZE 345  // RASCAL Default = 358 (distance between X-Stop and far left limit to not hit left rail/rod support)
-// ex: moved X-stop toward left by ~4mm to clear right rod support bracket and measured to left rod support bracket
-// Linear Rails/Hemera/Custom Duct and BLTouch rotated 180 degrees and Rod Bracket Lowered X = 345
-#define Y_BED_SIZE 345  // RASCAL Default = 370 (Creality Hot End Mount Plate to Fan Face = 48mm)
-                        // RASCAL Linear Rails/Mutant/Hemera = 345
+#define Y_BED_SIZE 345  // RASCAL Default = 370 Creality Hot End, Linear Rails/Mutant/Hemera = 345
 
 // Travel limits (linear=mm, rotational=°) after homing, corresponding to endstop positions.
-#define X_MIN_POS  0 // RASCAL default = -8
-#define Y_MIN_POS  0 // RASCAL default = -1
+#define X_MIN_POS  0 // RASCAL default -8
+#define Y_MIN_POS  0 // RASCAL default -1
 #define Z_MIN_POS  0
 #define X_MAX_POS  X_BED_SIZE + X_MIN_POS
 #define Y_MAX_POS  Y_BED_SIZE + Y_MIN_POS
-#define Z_MAX_POS  400        + Z_MIN_POS // RASCAL  default = 405 // decrease for installation of linear rails
+#define Z_MAX_POS  400        + Z_MIN_POS // RASCAL default 405 // decrease for installation of linear rails
 //#define I_MIN_POS 0
 //#define I_MAX_POS 50
 //#define J_MIN_POS 0
@@ -1884,7 +1879,7 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-#define AUTO_BED_LEVELING_BILINEAR  // RASCAL  uncommented
+#define AUTO_BED_LEVELING_BILINEAR  // RASCAL uncommented
 //#define AUTO_BED_LEVELING_UBL // RASCAL commented out
 //#define MESH_BED_LEVELING
 
@@ -1964,7 +1959,7 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 3 // RASCAL  Default = 3 (3x3 = 9 probe points)
+  #define GRID_MAX_POINTS_X 5 // RASCAL default 3
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Probe along the Y axis, advancing X after each column
@@ -2016,7 +2011,7 @@
   //=================================== Mesh ==================================
   //===========================================================================
 
-  #define MESH_INSET 10          // Set Mesh bounds as an inset region of the bed // RASCAL default = 10
+  #define MESH_INSET 10          // Set Mesh bounds as an inset region of the bed
   #define GRID_MAX_POINTS_X 3    // Don't use more than 7 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
@@ -2487,7 +2482,7 @@
  * Disable all menus and only display the Status Screen, or
  * just remove some extraneous menu items to recover space.
  */
-//#define NO_LCD_MENUS // RASCAL defautl is uncommented
+//#define NO_LCD_MENUS // RASCAL default is uncommented
 //#define SLIM_LCD_MENUS
 
 //
@@ -2743,7 +2738,7 @@
 // RepRapDiscount FULL GRAPHIC Smart Controller
 // https://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
 //
-//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER // RASCAL default commented, needed for BTT TFT
 
 //
 // K.3D Full Graphic Smart Controller
@@ -2987,7 +2982,7 @@
 //  - Plug the microSD card into the back of the display.
 //  - Boot the display and wait for the update to complete.
 //
-#define DGUS_LCD_UI_ORIGIN // RASCAL default is uncommented.
+//#define DGUS_LCD_UI_ORIGIN // RASCAL default is uncommented. Comment for REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
 //#define DGUS_LCD_UI_FYSETC
 //#define DGUS_LCD_UI_HIPRECY
 //#define DGUS_LCD_UI_MKS
