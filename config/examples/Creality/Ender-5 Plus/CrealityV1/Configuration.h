@@ -1549,7 +1549,11 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
+<<<<<<< Updated upstream
 #define MULTIPLE_PROBING 3 // RASCAL default 2 
+=======
+#define MULTIPLE_PROBING 2 // RASCAL default 2 
+>>>>>>> Stashed changes
 //#define EXTRA_PROBING  1
 
 /**
@@ -1959,7 +1963,11 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
+<<<<<<< Updated upstream
   #define GRID_MAX_POINTS_X 5 // RASCAL default 3
+=======
+  #define GRID_MAX_POINTS_X 4 // RASCAL default 3
+>>>>>>> Stashed changes
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Probe along the Y axis, advancing X after each column
